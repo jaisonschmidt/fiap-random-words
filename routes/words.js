@@ -7,11 +7,17 @@
  * improvement: criar um service para isso
  */
 
-const express = require('express');
+const express = require("express");
+const { randomWordsService } = require("../services/randomWordsService");
 const routes = express.Router();
 
-routes.get('/', (req, res) => {
-    res.json({ message: 'GET /api/words' });
+routes.get("/", async (req, res) => {
+  try {
+    const data = await randomWordsService(5);
+    res.json({ data });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 module.exports = routes;
